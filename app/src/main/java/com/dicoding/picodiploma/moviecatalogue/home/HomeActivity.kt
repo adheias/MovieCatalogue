@@ -1,9 +1,9 @@
-package com.dicoding.picodiploma.moviecatalogue
+package com.dicoding.picodiploma.moviecatalogue.home
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.dicoding.picodiploma.moviecatalogue.R
 import com.dicoding.picodiploma.moviecatalogue.databinding.ActivityHomeBinding
-import kotlinx.android.synthetic.main.activity_detail_movie.*
 
 class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

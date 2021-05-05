@@ -1,10 +1,11 @@
-package com.dicoding.picodiploma.moviecatalogue
+package com.dicoding.picodiploma.moviecatalogue.home
 
 import android.content.Context
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
+import com.dicoding.picodiploma.moviecatalogue.R
 import com.dicoding.picodiploma.moviecatalogue.movie.MovieFragment
 import com.dicoding.picodiploma.moviecatalogue.tvshow.TvsFragment
 
