@@ -11,10 +11,12 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title">Alita: Battle Angel</string>
+    <string name="title">Fantastic Beasts: The Crimes of Grindelwald</string>
     <string name="release">02/14/2019 (US)</string>
     <string name="duration">2h 2m</string>
     <string name="overview">Overview</string>
     <string name="desc">When Alita awakens with no memory of who she is in a future world she does not recognize, she is taken in by Ido, a compassionate doctor who realizes that somewhere in this abandoned cyborg shell is the heart and soul of a young woman with an extraordinary past.</string>
     <string name="genre">Action, Science Fiction, Adventure</string>
+    <string name="tvs">Tv Show</string>
+    <string name="movie">Movie</string>
 </resources>
