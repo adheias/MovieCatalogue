@@ -6,8 +6,7 @@ data class TvShowEntity(
     var genre: String,
     var duration: String,
     var overview: String,
-    var poster: Int,
-    var score: String,
+    var poster: String
 ) {
     var contentEntity: ContentEntity? = null
 }

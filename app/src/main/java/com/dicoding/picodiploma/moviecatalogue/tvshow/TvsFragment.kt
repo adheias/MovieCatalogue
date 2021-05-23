@@ -1,13 +1,15 @@
 package com.dicoding.picodiploma.moviecatalogue.tvshow
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.moviecatalogue.databinding.FragmentTvsBinding
+import com.dicoding.picodiploma.moviecatalogue.viewmodel.TvsViewModel
+import com.dicoding.picodiploma.moviecatalogue.viewmodel.ViewModelFactory
 
 
 class TvsFragment : Fragment() {
@@ -26,10 +28,16 @@ class TvsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
-            val viewModelProvider = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[TvsViewModel::class.java]
-            val tvs = viewModelProvider.getTvs()
+            val factory = ViewModelFactory.getInstance(requireActivity())
+            val viewModelProvider = ViewModelProvider(this, factory)[TvsViewModel::class.java]
             val tvsAdapter = TvsAdapter()
-            tvsAdapter.setTvs(tvs)
+
+            fragmentTvsBinding.progressBar.visibility = View.VISIBLE
+            viewModelProvider.getTvs().observe(viewLifecycleOwner, { tvshow ->
+                fragmentTvsBinding.progressBar.visibility = View.GONE
+                tvsAdapter.setTvs(tvshow)
+                tvsAdapter.notifyDataSetChanged()
+            })
 
             with(fragmentTvsBinding.rvTvs) {
                 layoutManager = LinearLayoutManager(context)

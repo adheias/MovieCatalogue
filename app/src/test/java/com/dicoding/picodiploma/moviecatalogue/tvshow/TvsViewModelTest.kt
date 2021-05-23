@@ -1,5 +1,6 @@
 package com.dicoding.picodiploma.moviecatalogue.tvshow
 
+import com.dicoding.picodiploma.moviecatalogue.viewmodel.TvsViewModel
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Before

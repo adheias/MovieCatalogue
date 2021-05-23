@@ -1,8 +1,7 @@
 package com.dicoding.picodiploma.moviecatalogue.detail
 
 import android.os.Bundle
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -11,9 +10,10 @@ import com.bumptech.glide.request.RequestOptions
 import com.dicoding.picodiploma.moviecatalogue.R
 import com.dicoding.picodiploma.moviecatalogue.data.MovieEntity
 import com.dicoding.picodiploma.moviecatalogue.data.TvShowEntity
-import com.dicoding.picodiploma.moviecatalogue.databinding.ActivityDetailMovieBinding
 import com.dicoding.picodiploma.moviecatalogue.databinding.ContentDetailMovieBinding
-import com.dicoding.picodiploma.moviecatalogue.utils.DataDummy
+import com.dicoding.picodiploma.moviecatalogue.viewmodel.DetailViewModel
+import com.dicoding.picodiploma.moviecatalogue.viewmodel.ViewModelFactory
+
 
 class DetailMovieActivity : AppCompatActivity() {
 
@@ -23,31 +23,67 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private lateinit var detailContentBinding: ContentDetailMovieBinding
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        val activityDetailMovieBinding = ActivityDetailMovieBinding.inflate(layoutInflater)
-        detailContentBinding = activityDetailMovieBinding.detailContent
-        setContentView(activityDetailMovieBinding.root)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        detailContentBinding = ContentDetailMovieBinding.inflate(layoutInflater)
+        setContentView(detailContentBinding.root)
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val viewModelProvider = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[DetailViewModel::class.java]
+        val factory = ViewModelFactory.getInstance(this)
+        val viewModelProvider = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
         val extras = intent.extras
-        if (extras !=null) {
+        if (extras != null) {
             val movie = extras.getString(EXTRA_MOVIE)
             if (movie != null) {
+
+                detailContentBinding.progressBar.visibility = View.VISIBLE
+                detailContentBinding.imagePoster.visibility = View.GONE
+                detailContentBinding.textDesc.visibility = View.GONE
+                detailContentBinding.textDuration.visibility = View.GONE
+                detailContentBinding.textGenre.visibility = View.GONE
+                detailContentBinding.textRelease.visibility = View.GONE
+                detailContentBinding.textTitle.visibility = View.GONE
+                detailContentBinding.textView.visibility = View.GONE
+
                 viewModelProvider.setSelectedMovie(movie)
-                populateMovie(viewModelProvider.getMovie())
+                viewModelProvider.getMovie().observe(this, { movies ->
+                    detailContentBinding.progressBar.visibility = View.GONE
+                    detailContentBinding.imagePoster.visibility = View.VISIBLE
+                    detailContentBinding.textDesc.visibility = View.VISIBLE
+                    detailContentBinding.textDuration.visibility = View.VISIBLE
+                    detailContentBinding.textGenre.visibility = View.VISIBLE
+                    detailContentBinding.textRelease.visibility = View.VISIBLE
+                    detailContentBinding.textTitle.visibility = View.VISIBLE
+                    detailContentBinding.textView.visibility = View.VISIBLE
+                    populateMovie(movies)
+                })
 
             }
             val tvs = extras.getString(EXTRA_TVS)
             if (tvs != null) {
+                detailContentBinding.progressBar.visibility = View.VISIBLE
+                detailContentBinding.imagePoster.visibility = View.GONE
+                detailContentBinding.textDesc.visibility = View.GONE
+                detailContentBinding.textDuration.visibility = View.GONE
+                detailContentBinding.textGenre.visibility = View.GONE
+                detailContentBinding.textRelease.visibility = View.GONE
+                detailContentBinding.textTitle.visibility = View.GONE
+                detailContentBinding.textView.visibility = View.GONE
+
                 viewModelProvider.setSelectedTvs(tvs)
-                populateTvs(viewModelProvider.getTvs())
+                viewModelProvider.getTvs().observe(this, { tvshow ->
+                    detailContentBinding.progressBar.visibility = View.GONE
+                    detailContentBinding.imagePoster.visibility = View.VISIBLE
+                    detailContentBinding.textDesc.visibility = View.VISIBLE
+                    detailContentBinding.textDuration.visibility = View.VISIBLE
+                    detailContentBinding.textGenre.visibility = View.VISIBLE
+                    detailContentBinding.textRelease.visibility = View.VISIBLE
+                    detailContentBinding.textTitle.visibility = View.VISIBLE
+                    detailContentBinding.textView.visibility = View.VISIBLE
+                    populateTvs(tvshow)
+                })
             }
         }
 
@@ -56,7 +92,7 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun populateMovie(movieEntity: MovieEntity) {
         detailContentBinding.textTitle.text = movieEntity.title
         detailContentBinding.textGenre.text = movieEntity.genre
-        detailContentBinding.textRelease.text = movieEntity.realeaseDate
+        detailContentBinding.textRelease.text = movieEntity.realease
         detailContentBinding.textDuration.text = movieEntity.duration
         detailContentBinding.textDesc.text = movieEntity.overview
 

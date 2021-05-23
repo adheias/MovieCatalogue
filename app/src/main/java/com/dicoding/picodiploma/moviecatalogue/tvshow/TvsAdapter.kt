@@ -26,7 +26,7 @@ class TvsAdapter: RecyclerView.Adapter<TvsAdapter.TvsViewHolder>() {
         return TvsViewHolder(itemsTvsBinding)
     }
 
-    override fun onBindViewHolder(holder: TvsAdapter.TvsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TvsViewHolder, position: Int) {
         val tvs = listTvs[position]
         holder.bind(tvs)
     }
@@ -37,17 +37,21 @@ class TvsAdapter: RecyclerView.Adapter<TvsAdapter.TvsViewHolder>() {
         fun bind(tvs: TvShowEntity) {
             with(binding) {
                 tvItemTitle.text = tvs.title
-                tvItemGenre.text = tvs.genre
+                tvItemGenre.text =
+                    if (tvs.overview.length > 120) tvs.overview.substring(0, 120) + "..."
+                    else tvs.overview
                 itemView.setOnClickListener {
                     val intent = Intent(itemView.context, DetailMovieActivity::class.java)
                     intent.putExtra(DetailMovieActivity.EXTRA_TVS, tvs.id)
                     itemView.context.startActivity(intent)
                 }
                 Glide.with(itemView.context)
-                        .load(tvs.poster)
-                        .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
-                                .error(R.drawable.ic_error))
-                        .into(imgPoster)
+                    .load(tvs.poster)
+                    .apply(
+                        RequestOptions.placeholderOf(R.drawable.ic_loading)
+                            .error(R.drawable.ic_error)
+                    )
+                    .into(imgPoster)
             }
         }
 

@@ -1,13 +1,15 @@
 package com.dicoding.picodiploma.moviecatalogue.movie
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.moviecatalogue.databinding.FragmentMovieBinding
+import com.dicoding.picodiploma.moviecatalogue.viewmodel.MovieViewModel
+import com.dicoding.picodiploma.moviecatalogue.viewmodel.ViewModelFactory
 
 class MovieFragment : Fragment() {
 
@@ -23,10 +25,16 @@ class MovieFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (activity != null) {
-            val viewModelProvider = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory())[MovieViewModel::class.java]
-            val movies = viewModelProvider.getMovies()
+            val factory = ViewModelFactory.getInstance(requireActivity())
+            val viewModelProvider = ViewModelProvider(this, factory)[MovieViewModel::class.java]
             val movieAdapter = MovieAdapter()
-            movieAdapter.setMovie(movies)
+
+            fragmentMovieBinding.progressBar.visibility = View.VISIBLE
+            viewModelProvider.getMovies().observe(viewLifecycleOwner, { movies ->
+                fragmentMovieBinding.progressBar.visibility = View.GONE
+                movieAdapter.setMovie(movies)
+                movieAdapter.notifyDataSetChanged()
+            })
 
             with(fragmentMovieBinding.rvMovie) {
                 layoutManager = LinearLayoutManager(context)
