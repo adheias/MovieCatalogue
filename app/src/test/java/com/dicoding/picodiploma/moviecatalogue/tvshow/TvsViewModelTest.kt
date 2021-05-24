@@ -3,8 +3,8 @@ package com.dicoding.picodiploma.moviecatalogue.tvshow
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.dicoding.picodiploma.moviecatalogue.data.TvShowEntity
 import com.dicoding.picodiploma.moviecatalogue.data.source.MovieRepository
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.dicoding.picodiploma.moviecatalogue.utils.DataDummy
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.TvsViewModel
 import com.nhaarman.mockitokotlin2.verify

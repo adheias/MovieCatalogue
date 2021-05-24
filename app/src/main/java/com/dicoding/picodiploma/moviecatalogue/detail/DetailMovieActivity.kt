@@ -8,8 +8,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.dicoding.picodiploma.moviecatalogue.R
-import com.dicoding.picodiploma.moviecatalogue.data.MovieEntity
-import com.dicoding.picodiploma.moviecatalogue.data.TvShowEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.MovieEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.dicoding.picodiploma.moviecatalogue.databinding.ContentDetailMovieBinding
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.DetailViewModel
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.ViewModelFactory

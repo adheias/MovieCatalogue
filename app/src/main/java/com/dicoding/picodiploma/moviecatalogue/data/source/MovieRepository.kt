@@ -2,8 +2,8 @@ package com.dicoding.picodiploma.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.dicoding.picodiploma.moviecatalogue.data.MovieEntity
-import com.dicoding.picodiploma.moviecatalogue.data.TvShowEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.MovieEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEntity
 import com.dicoding.picodiploma.moviecatalogue.data.source.remote.RemoteDataSource
 import com.dicoding.picodiploma.moviecatalogue.data.source.remote.response.MovieResponse
 import com.dicoding.picodiploma.moviecatalogue.data.source.remote.response.TvShowResponse
@@ -17,7 +17,7 @@ class MovieRepository private constructor(private val remoteDataSource: RemoteDa
 
         fun getInstance(remoteDataSource: RemoteDataSource): MovieRepository =
             instance ?: synchronized(this) {
-                instance ?: MovieRepository(remoteDataSource).apply { instance = this }
+                MovieRepository(remoteDataSource).apply { instance = this }
             }
     }
 

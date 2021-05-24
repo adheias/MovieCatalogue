@@ -3,8 +3,8 @@ package com.dicoding.picodiploma.moviecatalogue.movie
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
-import com.dicoding.picodiploma.moviecatalogue.data.MovieEntity
 import com.dicoding.picodiploma.moviecatalogue.data.source.MovieRepository
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.MovieEntity
 import com.dicoding.picodiploma.moviecatalogue.utils.DataDummy
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.MovieViewModel
 import org.junit.Assert.assertEquals

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.dicoding.picodiploma.moviecatalogue.R
-import com.dicoding.picodiploma.moviecatalogue.data.MovieEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.MovieEntity
 import com.dicoding.picodiploma.moviecatalogue.databinding.ItemsMovieBinding
 import com.dicoding.picodiploma.moviecatalogue.detail.DetailMovieActivity
 

@@ -1,7 +1,7 @@
 package com.dicoding.picodiploma.moviecatalogue.utils
 
-import com.dicoding.picodiploma.moviecatalogue.data.MovieEntity
-import com.dicoding.picodiploma.moviecatalogue.data.TvShowEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.MovieEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEntity
 
 object DataDummy {
 

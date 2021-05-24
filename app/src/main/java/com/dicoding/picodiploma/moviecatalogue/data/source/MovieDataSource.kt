@@ -1,8 +1,8 @@
 package com.dicoding.picodiploma.moviecatalogue.data.source
 
 import androidx.lifecycle.LiveData
-import com.dicoding.picodiploma.moviecatalogue.data.MovieEntity
-import com.dicoding.picodiploma.moviecatalogue.data.TvShowEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.MovieEntity
+import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEntity
 
 interface MovieDataSource {
 

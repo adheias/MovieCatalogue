@@ -1,4 +1,4 @@
-package com.dicoding.picodiploma.moviecatalogue.data
+package com.dicoding.picodiploma.moviecatalogue.data.source.local.entity
 
 data class TvShowEntity(
     var id: String,
@@ -7,6 +7,4 @@ data class TvShowEntity(
     var duration: String,
     var overview: String,
     var poster: String
-) {
-    var contentEntity: ContentEntity? = null
-}
+)

@@ -1,9 +1,5 @@
-package com.dicoding.picodiploma.moviecatalogue.data
+package com.dicoding.picodiploma.moviecatalogue.data.source.local.entity
 
-import android.os.Parcelable
-import kotlinx.android.parcel.Parcelize
-
-@Parcelize
 data class MovieEntity(
     var id: String,
     var title: String,
@@ -12,4 +8,4 @@ data class MovieEntity(
     var duration: String,
     var overview: String,
     var poster: String
-) : Parcelable
+)
