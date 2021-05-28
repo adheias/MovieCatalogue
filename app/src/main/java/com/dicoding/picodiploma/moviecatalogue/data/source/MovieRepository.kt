@@ -17,7 +17,7 @@ class MovieRepository private constructor(private val remoteDataSource: RemoteDa
 
         fun getInstance(remoteDataSource: RemoteDataSource): MovieRepository =
             instance ?: synchronized(this) {
-                MovieRepository(remoteDataSource).apply { instance = this }
+                instance ?: MovieRepository(remoteDataSource)
             }
     }
 
@@ -44,7 +44,7 @@ class MovieRepository private constructor(private val remoteDataSource: RemoteDa
         return movieResult
     }
 
-    override fun getMovie(id: String): LiveData<MovieEntity> {
+    override fun getMovieById(id: String): LiveData<MovieEntity> {
         val movieResult = MutableLiveData<MovieEntity>()
         remoteDataSource.getAllMovies(object : RemoteDataSource.LoadMoviesCallback {
             override fun onAllMoviesReceived(movieResponse: List<MovieResponse>) {
@@ -60,9 +60,10 @@ class MovieRepository private constructor(private val remoteDataSource: RemoteDa
                             response.overview,
                             response.poster
                         )
+                        movieResult.postValue(movie)
                     }
                 }
-                movieResult.postValue(movie)
+
             }
         })
 
@@ -91,7 +92,7 @@ class MovieRepository private constructor(private val remoteDataSource: RemoteDa
         return tvShowResult
     }
 
-    override fun getTvShow(id: String): LiveData<TvShowEntity> {
+    override fun getTvShowById(id: String): LiveData<TvShowEntity> {
         val tvShowResult = MutableLiveData<TvShowEntity>()
         remoteDataSource.getAllTvshow(object : RemoteDataSource.LoadTvShowCallback {
             override fun onAllTvShowReceived(tvShowResponse: List<TvShowResponse>) {
@@ -106,9 +107,10 @@ class MovieRepository private constructor(private val remoteDataSource: RemoteDa
                             response.overview,
                             response.poster
                         )
+                        tvShowResult.postValue(tvshow)
                     }
                 }
-                tvShowResult.postValue(tvshow)
+
             }
         })
 

@@ -23,7 +23,7 @@ class JsonHelper(private val context: Context) {
         }
     }
 
-    fun loadMovie(): List<MovieResponse> {
+    fun loadMovies(): List<MovieResponse> {
         val list = ArrayList<MovieResponse>()
         try {
             val responseObject = JSONObject(parsingFileToString("MovieAssets.json").toString())

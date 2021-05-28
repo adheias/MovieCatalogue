@@ -43,7 +43,7 @@ class MovieViewModelTest {
         val movies = MutableLiveData<List<MovieEntity>>()
         movies.value = dummyMovie
 
-        `when`(movieRepository.getAllMovie()).thenReturn(DataDummy.generateDummyMovies() as MutableLiveData<List<MovieEntity>>)
+        `when`(movieRepository.getAllMovie()).thenReturn(movies)
         val movieEntity = viewModel.getMovies().value
         verify(movieRepository).getAllMovie()
         assertNotNull(movieEntity)

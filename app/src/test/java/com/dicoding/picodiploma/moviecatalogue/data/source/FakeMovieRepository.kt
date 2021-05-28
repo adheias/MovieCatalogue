@@ -34,7 +34,7 @@ class FakeMovieRepository(private val remoteDataSource: RemoteDataSource) :
         return movieResult
     }
 
-    override fun getMovie(id: String): LiveData<MovieEntity> {
+    override fun getMovieById(id: String): LiveData<MovieEntity> {
         val movieResult = MutableLiveData<MovieEntity>()
         remoteDataSource.getAllMovies(object : RemoteDataSource.LoadMoviesCallback {
             override fun onAllMoviesReceived(movieResponse: List<MovieResponse>) {
@@ -81,7 +81,7 @@ class FakeMovieRepository(private val remoteDataSource: RemoteDataSource) :
         return tvShowResult
     }
 
-    override fun getTvShow(id: String): LiveData<TvShowEntity> {
+    override fun getTvShowById(id: String): LiveData<TvShowEntity> {
         val tvShowResult = MutableLiveData<TvShowEntity>()
         remoteDataSource.getAllTvshow(object : RemoteDataSource.LoadTvShowCallback {
             override fun onAllTvShowReceived(tvShowResponse: List<TvShowResponse>) {

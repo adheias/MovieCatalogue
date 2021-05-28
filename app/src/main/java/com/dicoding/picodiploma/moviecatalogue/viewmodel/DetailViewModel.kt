@@ -7,18 +7,18 @@ import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.MovieEnt
 import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEntity
 
 class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel() {
-    private lateinit var movie: String
-    private lateinit var tvs: String
+    private lateinit var movieId: String
+    private lateinit var tvShowId: String
 
-    fun setSelectedMovie(movie: String) {
-        this.movie = movie
+    fun setSelectedMovie(movieId: String) {
+        this.movieId = movieId
     }
 
-    fun setSelectedTvs(tvs: String) {
-        this.tvs = tvs
+    fun setSelectedTvs(tvShowId: String) {
+        this.tvShowId = tvShowId
     }
 
-    fun getMovie(): LiveData<MovieEntity> = movieRepository.getMovie(movie)
+    fun getMovie(): LiveData<MovieEntity> = movieRepository.getMovieById(movieId)
 
-    fun getTvs(): LiveData<TvShowEntity> = movieRepository.getTvShow(tvs)
+    fun getTvs(): LiveData<TvShowEntity> = movieRepository.getTvShowById(tvShowId)
 }

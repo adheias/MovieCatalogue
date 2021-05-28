@@ -8,9 +8,9 @@ interface MovieDataSource {
 
     fun getAllMovie(): LiveData<List<MovieEntity>>
 
-    fun getMovie(id: String): LiveData<MovieEntity>
+    fun getMovieById(id: String): LiveData<MovieEntity>
 
     fun getAllTvShow(): LiveData<List<TvShowEntity>>
 
-    fun getTvShow(id: String): LiveData<TvShowEntity>
+    fun getTvShowById(id: String): LiveData<TvShowEntity>
 }

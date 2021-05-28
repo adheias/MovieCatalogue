@@ -35,8 +35,8 @@ class DetailMovieActivity : AppCompatActivity() {
 
         val extras = intent.extras
         if (extras != null) {
-            val movie = extras.getString(EXTRA_MOVIE)
-            if (movie != null) {
+            val movieId = extras.getString(EXTRA_MOVIE)
+            if (movieId != null) {
 
                 detailContentBinding.progressBar.visibility = View.VISIBLE
                 detailContentBinding.imagePoster.visibility = View.GONE
@@ -47,7 +47,7 @@ class DetailMovieActivity : AppCompatActivity() {
                 detailContentBinding.textTitle.visibility = View.GONE
                 detailContentBinding.textView.visibility = View.GONE
 
-                viewModelProvider.setSelectedMovie(movie)
+                viewModelProvider.setSelectedMovie(movieId)
                 viewModelProvider.getMovie().observe(this, { movies ->
                     detailContentBinding.progressBar.visibility = View.GONE
                     detailContentBinding.imagePoster.visibility = View.VISIBLE
@@ -61,8 +61,8 @@ class DetailMovieActivity : AppCompatActivity() {
                 })
 
             }
-            val tvs = extras.getString(EXTRA_TVS)
-            if (tvs != null) {
+            val tvShowId = extras.getString(EXTRA_TVS)
+            if (tvShowId != null) {
                 detailContentBinding.progressBar.visibility = View.VISIBLE
                 detailContentBinding.imagePoster.visibility = View.GONE
                 detailContentBinding.textDesc.visibility = View.GONE
@@ -72,8 +72,8 @@ class DetailMovieActivity : AppCompatActivity() {
                 detailContentBinding.textTitle.visibility = View.GONE
                 detailContentBinding.textView.visibility = View.GONE
 
-                viewModelProvider.setSelectedTvs(tvs)
-                viewModelProvider.getTvs().observe(this, { tvshow ->
+                viewModelProvider.setSelectedTvs(tvShowId)
+                viewModelProvider.getTvs().observe(this, { tvShow ->
                     detailContentBinding.progressBar.visibility = View.GONE
                     detailContentBinding.imagePoster.visibility = View.VISIBLE
                     detailContentBinding.textDesc.visibility = View.VISIBLE
@@ -82,7 +82,7 @@ class DetailMovieActivity : AppCompatActivity() {
                     detailContentBinding.textRelease.visibility = View.VISIBLE
                     detailContentBinding.textTitle.visibility = View.VISIBLE
                     detailContentBinding.textView.visibility = View.VISIBLE
-                    populateTvs(tvshow)
+                    populateTvShow(tvShow)
                 })
             }
         }
@@ -92,7 +92,7 @@ class DetailMovieActivity : AppCompatActivity() {
     private fun populateMovie(movieEntity: MovieEntity) {
         detailContentBinding.textTitle.text = movieEntity.title
         detailContentBinding.textGenre.text = movieEntity.genre
-        detailContentBinding.textRelease.text = movieEntity.realease
+        detailContentBinding.textRelease.text = movieEntity.release
         detailContentBinding.textDuration.text = movieEntity.duration
         detailContentBinding.textDesc.text = movieEntity.overview
 
@@ -104,17 +104,19 @@ class DetailMovieActivity : AppCompatActivity() {
                 .into(detailContentBinding.imagePoster)
     }
 
-    private fun populateTvs(tvShowEntity: TvShowEntity) {
+    private fun populateTvShow(tvShowEntity: TvShowEntity) {
         detailContentBinding.textTitle.text = tvShowEntity.title
         detailContentBinding.textGenre.text = tvShowEntity.genre
         detailContentBinding.textDuration.text = tvShowEntity.duration
         detailContentBinding.textDesc.text = tvShowEntity.overview
 
         Glide.with(this)
-                .load(tvShowEntity.poster)
-                .transform(RoundedCorners(20))
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
-                        .error(R.drawable.ic_error))
+            .load(tvShowEntity.poster)
+            .transform(RoundedCorners(20))
+            .apply(
+                RequestOptions.placeholderOf(R.drawable.ic_loading)
+                    .error(R.drawable.ic_error)
+            )
                 .into(detailContentBinding.imagePoster)
     }
 }
