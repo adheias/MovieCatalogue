@@ -33,10 +33,8 @@ class DetailMovieActivity : AppCompatActivity() {
         val factory = ViewModelFactory.getInstance(this)
         val viewModelProvider = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
-        val extras = intent.extras
-        if (extras != null) {
-            val movieId = extras.getString(EXTRA_MOVIE)
-            if (movieId != null) {
+        intent.extras?.let {
+            it.getString(EXTRA_MOVIE)?.apply {
 
                 detailContentBinding.progressBar.visibility = View.VISIBLE
                 detailContentBinding.imagePoster.visibility = View.GONE
@@ -47,8 +45,8 @@ class DetailMovieActivity : AppCompatActivity() {
                 detailContentBinding.textTitle.visibility = View.GONE
                 detailContentBinding.textView.visibility = View.GONE
 
-                viewModelProvider.setSelectedMovie(movieId)
-                viewModelProvider.getMovie().observe(this, { movies ->
+                viewModelProvider.setSelectedMovie(this)
+                viewModelProvider.getMovie().observe(this@DetailMovieActivity, { movies ->
                     detailContentBinding.progressBar.visibility = View.GONE
                     detailContentBinding.imagePoster.visibility = View.VISIBLE
                     detailContentBinding.textDesc.visibility = View.VISIBLE
@@ -61,8 +59,7 @@ class DetailMovieActivity : AppCompatActivity() {
                 })
 
             }
-            val tvShowId = extras.getString(EXTRA_TVS)
-            if (tvShowId != null) {
+            it.getString(EXTRA_TVS)?.apply {
                 detailContentBinding.progressBar.visibility = View.VISIBLE
                 detailContentBinding.imagePoster.visibility = View.GONE
                 detailContentBinding.textDesc.visibility = View.GONE
@@ -72,8 +69,8 @@ class DetailMovieActivity : AppCompatActivity() {
                 detailContentBinding.textTitle.visibility = View.GONE
                 detailContentBinding.textView.visibility = View.GONE
 
-                viewModelProvider.setSelectedTvs(tvShowId)
-                viewModelProvider.getTvs().observe(this, { tvShow ->
+                viewModelProvider.setSelectedTvs(this)
+                viewModelProvider.getTvs().observe(this@DetailMovieActivity, { tvShow ->
                     detailContentBinding.progressBar.visibility = View.GONE
                     detailContentBinding.imagePoster.visibility = View.VISIBLE
                     detailContentBinding.textDesc.visibility = View.VISIBLE
@@ -90,33 +87,39 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private fun populateMovie(movieEntity: MovieEntity) {
-        detailContentBinding.textTitle.text = movieEntity.title
-        detailContentBinding.textGenre.text = movieEntity.genre
-        detailContentBinding.textRelease.text = movieEntity.release
-        detailContentBinding.textDuration.text = movieEntity.duration
-        detailContentBinding.textDesc.text = movieEntity.overview
+        detailContentBinding.apply {
+            detailContentBinding.textTitle.text = movieEntity.title
+            detailContentBinding.textGenre.text = movieEntity.genre
+            detailContentBinding.textRelease.text = movieEntity.release
+            detailContentBinding.textDuration.text = movieEntity.duration
+            detailContentBinding.textDesc.text = movieEntity.overview
 
-        Glide.with(this)
+            Glide.with(this@DetailMovieActivity)
                 .load(movieEntity.poster)
                 .transform(RoundedCorners(20))
-                .apply(RequestOptions.placeholderOf(R.drawable.ic_loading)
-                        .error(R.drawable.ic_error))
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_error)
+                )
                 .into(detailContentBinding.imagePoster)
+        }
     }
 
     private fun populateTvShow(tvShowEntity: TvShowEntity) {
-        detailContentBinding.textTitle.text = tvShowEntity.title
-        detailContentBinding.textGenre.text = tvShowEntity.genre
-        detailContentBinding.textDuration.text = tvShowEntity.duration
-        detailContentBinding.textDesc.text = tvShowEntity.overview
+        detailContentBinding.apply {
+            detailContentBinding.textTitle.text = tvShowEntity.title
+            detailContentBinding.textGenre.text = tvShowEntity.genre
+            detailContentBinding.textDuration.text = tvShowEntity.duration
+            detailContentBinding.textDesc.text = tvShowEntity.overview
 
-        Glide.with(this)
-            .load(tvShowEntity.poster)
-            .transform(RoundedCorners(20))
-            .apply(
-                RequestOptions.placeholderOf(R.drawable.ic_loading)
-                    .error(R.drawable.ic_error)
-            )
+            Glide.with(this@DetailMovieActivity)
+                .load(tvShowEntity.poster)
+                .transform(RoundedCorners(20))
+                .apply(
+                    RequestOptions.placeholderOf(R.drawable.ic_loading)
+                        .error(R.drawable.ic_error)
+                )
                 .into(detailContentBinding.imagePoster)
+        }
     }
 }
