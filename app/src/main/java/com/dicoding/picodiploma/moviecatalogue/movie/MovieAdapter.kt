@@ -10,12 +10,13 @@ import com.dicoding.picodiploma.moviecatalogue.R
 import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.MovieEntity
 import com.dicoding.picodiploma.moviecatalogue.databinding.ItemsMovieBinding
 import com.dicoding.picodiploma.moviecatalogue.detail.DetailMovieActivity
+import com.dicoding.picodiploma.moviecatalogue.vo.Resource
 
 class MovieAdapter : RecyclerView.Adapter<MovieAdapter.MvViewHolder>() {
 
     private var listMovie = ArrayList<MovieEntity>()
 
-    fun setMovie(movies: List<MovieEntity>?) {
+    fun setMovie(movies: Resource<List<MovieEntity>>) {
         if (movies == null) return
         this.listMovie.clear()
         this.listMovie.addAll(movies)

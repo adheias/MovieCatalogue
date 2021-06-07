@@ -6,13 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.moviecatalogue.databinding.FragmentTvsBinding
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.TvsViewModel
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.ViewModelFactory
 
 
-class TvsFragment : Fragment() {
+class TvShowFragment : Fragment() {
 
     private lateinit var fragmentTvsBinding: FragmentTvsBinding
 
@@ -30,7 +29,7 @@ class TvsFragment : Fragment() {
         if (activity != null) {
             val factory = ViewModelFactory.getInstance(requireActivity())
             val viewModelProvider = ViewModelProvider(this, factory)[TvsViewModel::class.java]
-            val tvsAdapter = TvsAdapter()
+            val tvsAdapter = TvShowAdapter()
 
             fragmentTvsBinding.progressBar.visibility = View.VISIBLE
             viewModelProvider.getTvs().observe(viewLifecycleOwner, { tvshow ->

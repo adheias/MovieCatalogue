@@ -122,4 +122,12 @@ class DetailMovieActivity : AppCompatActivity() {
                 .into(detailContentBinding.imagePoster)
         }
     }
+
+    private fun setStatusFavorite(statusFavorite: Boolean) {
+        if (statusFavorite) {
+            detailContentBinding.fabAdd.setImageResource(R.drawable.ic_baseline_favorite_24)
+        } else {
+            detailContentBinding.fabAdd.setImageResource(R.drawable.ic_baseline_favorite_border_24)
+        }
+    }
 }

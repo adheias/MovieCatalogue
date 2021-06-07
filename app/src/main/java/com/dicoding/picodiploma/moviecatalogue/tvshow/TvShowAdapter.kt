@@ -11,7 +11,7 @@ import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEn
 import com.dicoding.picodiploma.moviecatalogue.databinding.ItemsTvsBinding
 import com.dicoding.picodiploma.moviecatalogue.detail.DetailMovieActivity
 
-class TvsAdapter: RecyclerView.Adapter<TvsAdapter.TvsViewHolder>() {
+class TvShowAdapter : RecyclerView.Adapter<TvShowAdapter.TvsViewHolder>() {
 
     private var listTvs = ArrayList<TvShowEntity>()
 

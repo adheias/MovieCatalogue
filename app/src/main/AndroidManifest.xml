@@ -11,6 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieCatalogue">
+        <activity android:name=".favorite.FavoriteActivity"></activity>
         <activity
             android:name=".splashscreen.SplashScreen"
             android:theme="@style/Theme.Splash">
@@ -29,9 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".home.HomeActivity" />
         </activity>
-        <activity android:name=".home.HomeActivity">
-
-        </activity>
+        <activity android:name=".home.HomeActivity"></activity>
     </application>
 
 </manifest>

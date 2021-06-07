@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import com.dicoding.picodiploma.moviecatalogue.R
 import com.dicoding.picodiploma.moviecatalogue.movie.MovieFragment
-import com.dicoding.picodiploma.moviecatalogue.tvshow.TvsFragment
+import com.dicoding.picodiploma.moviecatalogue.tvshow.TvShowFragment
 
 class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) : FragmentPagerAdapter(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
@@ -19,7 +19,7 @@ class SectionsPagerAdapter(private val mContext: Context, fm: FragmentManager) :
     override fun getItem(position: Int): Fragment =
             when (position) {
                 0 -> MovieFragment()
-                1 -> TvsFragment()
+                1 -> TvShowFragment()
                 else -> Fragment()
             }
 
