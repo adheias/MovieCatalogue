@@ -4,23 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.dicoding.picodiploma.moviecatalogue.databinding.FragmentTvsBinding
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.dicoding.picodiploma.moviecatalogue.databinding.FragmentTvshowBinding
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.TvsViewModel
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.ViewModelFactory
+import com.dicoding.picodiploma.moviecatalogue.vo.Status
 
 
 class TvShowFragment : Fragment() {
 
-    private lateinit var fragmentTvsBinding: FragmentTvsBinding
+    private lateinit var fragmentTvsBinding: FragmentTvshowBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        fragmentTvsBinding = FragmentTvsBinding.inflate(layoutInflater, container, false)
+        fragmentTvsBinding = FragmentTvshowBinding.inflate(layoutInflater, container, false)
         return fragmentTvsBinding.root
     }
 
@@ -33,15 +36,26 @@ class TvShowFragment : Fragment() {
 
             fragmentTvsBinding.progressBar.visibility = View.VISIBLE
             viewModelProvider.getTvs().observe(viewLifecycleOwner, { tvshow ->
-                fragmentTvsBinding.progressBar.visibility = View.GONE
-                tvsAdapter.setTvs(tvshow)
-                tvsAdapter.notifyDataSetChanged()
+                if (tvshow != null) {
+                    when (tvshow.status) {
+                        Status.LOADING -> fragmentTvsBinding.progressBar.visibility = View.VISIBLE
+                        Status.SUCCESS -> {
+                            fragmentTvsBinding.progressBar.visibility = View.GONE
+                            tvsAdapter.setTvs(tvshow.data)
+                            tvsAdapter.notifyDataSetChanged()
+                        }
+                        Status.ERROR -> {
+                            fragmentTvsBinding.progressBar.visibility = View.GONE
+                            Toast.makeText(context, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             })
 
             with(fragmentTvsBinding.rvTvs) {
-                layoutManager = LinearLayoutManager(context)
-                setHasFixedSize(true)
-                adapter = tvsAdapter
+                this.layoutManager = LinearLayoutManager(context)
+                this.setHasFixedSize(true)
+                this.adapter = tvsAdapter
             }
         }
 

@@ -10,8 +10,8 @@ import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEn
 import com.dicoding.picodiploma.moviecatalogue.vo.Resource
 
 class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel() {
-    val movieId: MutableLiveData<String>()
-    val tvShowId: MutableLiveData<String>()
+    val movieId = MutableLiveData<String>()
+    val tvShowId = MutableLiveData<String>()
 
     fun setSelectedMovie(movieId: String) {
         this.movieId.value = movieId
@@ -30,28 +30,9 @@ class DetailViewModel(private val movieRepository: MovieRepository) : ViewModel(
             movieRepository.getTvShowById(mTvShowId)
         }
 
-    fun setFavorite() {
-        val movieResources = movie.value
-        val tvShowResource = tvShow.value
+    fun setFavoriteMovie(movieEntity: MovieEntity, newState: Boolean) =
+        movieRepository.setMovieFavorite(movieEntity, newState)
 
-        if (movieResources != null) {
-            val movieWithData = movieResources.data
-
-            if (movieResources != null) {
-                val newState = !movieWithData.favorited
-                movieRepository.setMovieFavorite(movieWithData, newState)
-            }
-        }
-
-        if (tvShowResource != null) {
-            val tvShowWithData = tvShowResource.data
-
-            if (tvShowResource != null) {
-                val newState = !tvShowWithData.favorited
-                movieRepository.setMovieFavorite(tvShowWithData, newState)
-            }
-        }
-    }
-
-
+    fun setFavoriteTvShow(tvShowEntity: TvShowEntity, newState: Boolean) =
+        movieRepository.setTvShowFavorite(tvShowEntity, newState)
 }

@@ -2,6 +2,7 @@ package com.dicoding.picodiploma.moviecatalogue.detail
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -13,6 +14,8 @@ import com.dicoding.picodiploma.moviecatalogue.data.source.local.entity.TvShowEn
 import com.dicoding.picodiploma.moviecatalogue.databinding.ContentDetailMovieBinding
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.DetailViewModel
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.ViewModelFactory
+import com.dicoding.picodiploma.moviecatalogue.vo.Status
+import kotlinx.android.synthetic.main.content_detail_movie.*
 
 
 class DetailMovieActivity : AppCompatActivity() {
@@ -23,68 +26,73 @@ class DetailMovieActivity : AppCompatActivity() {
     }
 
     private lateinit var detailContentBinding: ContentDetailMovieBinding
+    private lateinit var viewModel: DetailViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         detailContentBinding = ContentDetailMovieBinding.inflate(layoutInflater)
         setContentView(detailContentBinding.root)
 
+        supportActionBar?.title = "Detail"
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val factory = ViewModelFactory.getInstance(this)
-        val viewModelProvider = ViewModelProvider(this, factory)[DetailViewModel::class.java]
+        viewModel = ViewModelProvider(this, factory)[DetailViewModel::class.java]
 
         intent.extras?.let {
             it.getString(EXTRA_MOVIE)?.apply {
 
-                detailContentBinding.progressBar.visibility = View.VISIBLE
-                detailContentBinding.imagePoster.visibility = View.GONE
-                detailContentBinding.textDesc.visibility = View.GONE
-                detailContentBinding.textDuration.visibility = View.GONE
-                detailContentBinding.textGenre.visibility = View.GONE
-                detailContentBinding.textRelease.visibility = View.GONE
-                detailContentBinding.textTitle.visibility = View.GONE
-                detailContentBinding.textView.visibility = View.GONE
+                viewModel.setSelectedMovie(this)
+                viewModel.movie.observe(this@DetailMovieActivity, { movies ->
+                    if (movies != null) {
+                        when (movies.status) {
+                            Status.LOADING -> detailContentBinding.progressBar.visibility =
+                                View.VISIBLE
+                            Status.SUCCESS -> if (movies.data != null) {
+                                detailContentBinding.progressBar.visibility = View.GONE
 
-                viewModelProvider.setSelectedMovie(this)
-                viewModelProvider.getMovie().observe(this@DetailMovieActivity, { movies ->
-                    detailContentBinding.progressBar.visibility = View.GONE
-                    detailContentBinding.imagePoster.visibility = View.VISIBLE
-                    detailContentBinding.textDesc.visibility = View.VISIBLE
-                    detailContentBinding.textDuration.visibility = View.VISIBLE
-                    detailContentBinding.textGenre.visibility = View.VISIBLE
-                    detailContentBinding.textRelease.visibility = View.VISIBLE
-                    detailContentBinding.textTitle.visibility = View.VISIBLE
-                    detailContentBinding.textView.visibility = View.VISIBLE
-                    populateMovie(movies)
+                                populateMovie(movies.data)
+                            }
+                            Status.ERROR -> {
+                                detailContentBinding.progressBar.visibility = View.GONE
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Terjadi Kesalahan",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
                 })
-
             }
             it.getString(EXTRA_TVS)?.apply {
-                detailContentBinding.progressBar.visibility = View.VISIBLE
-                detailContentBinding.imagePoster.visibility = View.GONE
-                detailContentBinding.textDesc.visibility = View.GONE
-                detailContentBinding.textDuration.visibility = View.GONE
-                detailContentBinding.textGenre.visibility = View.GONE
-                detailContentBinding.textRelease.visibility = View.GONE
-                detailContentBinding.textTitle.visibility = View.GONE
-                detailContentBinding.textView.visibility = View.GONE
 
-                viewModelProvider.setSelectedTvs(this)
-                viewModelProvider.getTvs().observe(this@DetailMovieActivity, { tvShow ->
-                    detailContentBinding.progressBar.visibility = View.GONE
-                    detailContentBinding.imagePoster.visibility = View.VISIBLE
-                    detailContentBinding.textDesc.visibility = View.VISIBLE
-                    detailContentBinding.textDuration.visibility = View.VISIBLE
-                    detailContentBinding.textGenre.visibility = View.VISIBLE
-                    detailContentBinding.textRelease.visibility = View.VISIBLE
-                    detailContentBinding.textTitle.visibility = View.VISIBLE
-                    detailContentBinding.textView.visibility = View.VISIBLE
-                    populateTvShow(tvShow)
+                viewModel.setSelectedTvs(this)
+                viewModel.tvShow.observe(this@DetailMovieActivity, { tvshow ->
+                    if (tvshow != null) {
+                        when (tvshow.status) {
+                            Status.LOADING -> detailContentBinding.progressBar.visibility =
+                                View.VISIBLE
+                            Status.SUCCESS -> if (tvshow.data != null) {
+                                detailContentBinding.progressBar.visibility = View.GONE
+
+                                populateTvShow(tvshow.data)
+                            }
+                            Status.ERROR -> {
+                                detailContentBinding.progressBar.visibility = View.GONE
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Terjadi Kesalahan",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
+                        }
+                    }
                 })
             }
         }
 
     }
+
 
     private fun populateMovie(movieEntity: MovieEntity) {
         detailContentBinding.apply {
@@ -103,6 +111,14 @@ class DetailMovieActivity : AppCompatActivity() {
                 )
                 .into(detailContentBinding.imagePoster)
         }
+
+        var statusFavorite = movieEntity.favorited
+        setStatusFavorite(statusFavorite)
+        fab_add.setOnClickListener {
+            statusFavorite = !statusFavorite
+            viewModel.setFavoriteMovie(movieEntity, statusFavorite)
+            setStatusFavorite(statusFavorite)
+        }
     }
 
     private fun populateTvShow(tvShowEntity: TvShowEntity) {
@@ -120,6 +136,14 @@ class DetailMovieActivity : AppCompatActivity() {
                         .error(R.drawable.ic_error)
                 )
                 .into(detailContentBinding.imagePoster)
+        }
+
+        var statusFavorite = tvShowEntity.favorited
+        setStatusFavorite(statusFavorite)
+        fab_add.setOnClickListener {
+            statusFavorite = !statusFavorite
+            viewModel.setFavoriteTvShow(tvShowEntity, statusFavorite)
+            setStatusFavorite(statusFavorite)
         }
     }
 

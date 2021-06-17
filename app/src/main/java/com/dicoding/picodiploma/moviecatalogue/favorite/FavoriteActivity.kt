@@ -17,6 +17,13 @@ class FavoriteActivity : AppCompatActivity() {
             SectionsPagerFavoriteAdapter(this, supportFragmentManager)
         activityFavoriteBinding.viewPager.adapter = sectionsPagerFavoriteAdapter
         activityFavoriteBinding.tabs.setupWithViewPager(activityFavoriteBinding.viewPager)
+        supportActionBar?.title = "Favorite"
         supportActionBar?.elevation = 0f
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
+
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return super.onSupportNavigateUp()
     }
 }

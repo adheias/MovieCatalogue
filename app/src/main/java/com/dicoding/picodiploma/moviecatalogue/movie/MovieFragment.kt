@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dicoding.picodiploma.moviecatalogue.databinding.FragmentMovieBinding
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.MovieViewModel
 import com.dicoding.picodiploma.moviecatalogue.viewmodel.ViewModelFactory
+import com.dicoding.picodiploma.moviecatalogue.vo.Status
 
 class MovieFragment : Fragment() {
 
@@ -29,17 +31,27 @@ class MovieFragment : Fragment() {
             val viewModelProvider = ViewModelProvider(this, factory)[MovieViewModel::class.java]
             val movieAdapter = MovieAdapter()
 
-            fragmentMovieBinding.progressBar.visibility = View.VISIBLE
             viewModelProvider.getMovies().observe(viewLifecycleOwner, { movies ->
-                fragmentMovieBinding.progressBar.visibility = View.GONE
-                movieAdapter.setMovie(movies)
-                movieAdapter.notifyDataSetChanged()
+                if (movies != null) {
+                    when (movies.status) {
+                        Status.LOADING -> fragmentMovieBinding.progressBar.visibility = View.VISIBLE
+                        Status.SUCCESS -> {
+                            fragmentMovieBinding.progressBar.visibility = View.GONE
+                            movieAdapter.setMovie(movies.data)
+                            movieAdapter.notifyDataSetChanged()
+                        }
+                        Status.ERROR -> {
+                            fragmentMovieBinding.progressBar.visibility = View.GONE
+                            Toast.makeText(context, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
             })
 
             with(fragmentMovieBinding.rvMovie) {
-                layoutManager = LinearLayoutManager(context)
-                setHasFixedSize(true)
-                adapter = movieAdapter
+                this.layoutManager = LinearLayoutManager(context)
+                this.setHasFixedSize(true)
+                this.adapter = movieAdapter
             }
         }
     }

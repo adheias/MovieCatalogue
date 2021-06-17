@@ -15,14 +15,12 @@ class ViewModelFactory private constructor(private val movieRepository: MovieRep
 
         fun getInstance(context: Context): ViewModelFactory =
             instance ?: synchronized(this) {
-                instance ?: ViewModelFactory(Injection.provideRepository(context)).apply {
-                    instance = this
-                }
+                instance ?: ViewModelFactory(Injection.provideRepository(context))
             }
     }
 
     @Suppress("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         when {
             modelClass.isAssignableFrom(MovieViewModel::class.java) -> {
                 return MovieViewModel(movieRepository) as T
@@ -33,7 +31,13 @@ class ViewModelFactory private constructor(private val movieRepository: MovieRep
             modelClass.isAssignableFrom(DetailViewModel::class.java) -> {
                 return DetailViewModel(movieRepository) as T
             }
-            else -> throw Throwable("Uknown ViewModel class: " + modelClass.name)
+            modelClass.isAssignableFrom(FavoriteMovieViewModel::class.java) -> {
+                return FavoriteMovieViewModel(movieRepository) as T
+            }
+            modelClass.isAssignableFrom(FavoriteTvShowViewModel::class.java) -> {
+                return FavoriteTvShowViewModel(movieRepository) as T
+            }
+            else -> throw Throwable("Unknown ViewModel class: " + modelClass.name)
         }
     }
 }

@@ -11,7 +11,7 @@ class LocalDataSource private constructor(private val mMovieDao: MovieDao) {
         private var INSTANCE: LocalDataSource? = null
 
         fun getInstance(movieDao: MovieDao): LocalDataSource =
-            INSTANCE ?: getInstance(movieDao)
+            INSTANCE ?: LocalDataSource(movieDao).apply { INSTANCE = this }
     }
 
     fun getAllMovies(): LiveData<List<MovieEntity>> = mMovieDao.getMovies()

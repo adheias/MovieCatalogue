@@ -20,4 +20,5 @@
     <string name="tvs">Tv Show</string>
     <string name="movie">Movie</string>
     <string name="button_favorite">Button Favorite</string>
+    <string name="menu_favorite">Favorite</string>
 </resources>
